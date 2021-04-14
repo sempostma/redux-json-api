@@ -1,6 +1,5 @@
 import * as imm from 'object-path-immutable';
 import pluralize from 'pluralize';
-import equal from 'deep-equal';
 import { hasOwnProperties } from './utils';
 
 export const makeUpdateReverseRelationship = (
@@ -183,9 +182,7 @@ export const updateOrInsertResource = (state, resource) => {
       Object.assign(resource.relationships, relationships);
     }
 
-    if (!equal(resources[idx], resource)) {
-      newState = imm.set(newState, updatePath.concat(idx), resource);
-    }
+    newState = imm.set(newState, updatePath.concat(idx), resource);
   } else {
     newState = imm.push(newState, updatePath, resource);
   }
