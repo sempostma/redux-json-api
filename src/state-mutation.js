@@ -183,6 +183,13 @@ export const updateOrInsertResource = (state, resource) => {
     }
 
     newState = imm.set(newState, updatePath.concat(idx), resource);
+    
+    // shallow compare because a deep compare is too slow
+    // sometimes the state may be replaced even though the attributes are the same
+    // which may cause components to rerender, but it's up to the developer to implement measures to avoid this
+    if (resources[idx] !== resource) {
+      newState = imm.set(newState, updatePath.concat(idx), resource);
+    }
   } else {
     newState = imm.push(newState, updatePath, resource);
   }
